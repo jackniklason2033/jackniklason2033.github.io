@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CV</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+cursor: url('Left pen lg.cur'), auto;
+    }
+    
+    #lebenslauf {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      z-index: 0;
+    }
+    
+    #bild {
+      position: absolute;
+      width: 200px;
+      height: auto;
+      z-index: 1;
+
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  
+  <div id="lebenslauf">
+    <h1>CV</h1>
+    <p><I>As a member of das bisschen Totschlag<br></I> 
+    Performed 50+ shows including Reeperbahnfestival (2022), Ment Ljubljana (2022), Waves Vienna (2020) and Vera Mainstage, Groningen (2018) <br> 
+    Released 2 albums, 3 EPs, and several singles (including "LG Unlimited" feat. Drangsal) <br>
+    Received artist funding from Initiative Musik (2022); tour funding from Initiative Musik (2022); selected for INES#Talent (2020) <br>
+    Featured in prestigious magazines, podcasts, and radio shows (including NTS Radio; Kaltblut; Diffus; Pretty in Noise; ByteFM; Mit Verachtung) 
+    <br>
+    <br>
+    <I> As nix kiepe <br></I> 
+    In 2022, nix received funding for a solo ep from Rockcity Hamburg e.V. <br>
+    Recorded the debut EP <I>insufficiently prepared</I> (tba) at mechanik_rec Studio in Hamburg; produced by Fritz Kröber of the band RAUCHEN <br>
+    Release of the first single, title track insufficiently prepared, in August 2023. <br></p>
+  </div>
+  
+  <img id="bild" src="foto.jpeg" alt="Mein Bild">
+
+  <script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+    var isDrawing = false;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    context.strokeStyle = "#0a0fa3";
+    context.lineWidth = 3;
+    context.lineJoin = "round";
+    context.lineCap = "round";
+
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("mouseup", stopDrawing);
+
+    function startDrawing(event) {
+      isDrawing = true;
+      context.beginPath();
+      draw(event);
+    }
+
+    function draw(event) {
+      if (!isDrawing) return;
+
+      var x = event.clientX;
+      var y = event.clientY;
+
+      context.lineTo(x, y);
+      context.stroke();
+    }
+
+    function stopDrawing() {
+      isDrawing = false;
+    }
+
+    // Zufällige Positionierung des Bildes rechts oder links vom Text
+    var bild = document.getElementById("bild");
+    var lebenslauf = document.getElementById("lebenslauf");
+    var boundingRect = lebenslauf.getBoundingClientRect();
+
+    var minX = boundingRect.left - bild.width - 10; // 10px Abstand zum linken Rand
+    var maxX = boundingRect.right + 10; // 10px Abstand zum rechten Rand
+    var minY = boundingRect.top; // Kein Abstand über dem Text
+    var maxY = boundingRect.bottom - bild.height; // Kein Abstand unter dem Text
+
+    var randomX = Math.random() < 0.5 ? minX : maxX; // Zufällige Auswahl von links oder rechts
+    var randomY = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
+
+    bild.style.top = randomY + "px";
+    bild.style.left = randomX + "px";
+  </script>
+
+
+</body>
+</html>
